@@ -1,1 +1,19 @@
-<p>home works!</p>
+<mat-label>Category</mat-label>
+<mat-form-field appearance="fill">
+  <mat-select (selectionChange)="onCategorySelected($event.value)" id="categorySelect">
+    <mat-option *ngFor="let category of categories" [value]="category.name">
+      {{category.name}}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+<mat-label>Difficulty</mat-label>
+
+<mat-form-field appearance="fill">
+  <mat-select (selectionChange)="onDifficultySelected($event.value)" id="difficultySelect">
+    <mat-option *ngFor="let difficulty of difficulties" [value]="difficulty">
+      {{difficulty}}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+
+<button id="createBtn" mat-stroked-button (click)="createQuiz()" [disabled]="selectedCategory == 'none' || selectedDifficulty == 'none'">Create Quiz</button>
