@@ -1,1 +1,11 @@
-<p>quiz works!</p>
+<h1 class="header">Test - {{difficulty}} - {{categoryName}}</h1>
+<ng-container *ngFor="let question of questions">
+  <mat-label>{{ question.question }}</mat-label>
+  <mat-radio-group class="radio-group" [(ngModel)]="question.selectedAnswer" #radioGroup="ngModel" required>
+    <mat-radio-button class="radio-button" *ngFor="let answer of question.all_answers" [value]="answer">
+      {{ answer }}
+    </mat-radio-button>
+  </mat-radio-group>
+</ng-container>
+
+<button mat-stroked-button (click)="submit()" *ngIf="areAllAnswersSelected()">Submit</button>
