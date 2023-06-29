@@ -1,7 +1,7 @@
-import {HttpClient} from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import {Router} from '@angular/router';
-import {ICategory} from '../../shared/category.model';
+import { Router } from '@angular/router';
+import { ITrivia, ITriviaData } from '../../shared/trivia.model';
 
 @Component({
   selector: 'app-home',
@@ -9,15 +9,15 @@ import {ICategory} from '../../shared/category.model';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-  public categories: ICategory[] = [];
+  public selectedCategory: string = 'none';
+  public selectedDifficulty: string = 'none';
+  public categories: ITriviaData[] = [];
   public difficulties = [
     'Easy',
     'Medium',
     'Hard'
   ];
 
-  public selectedCategory: string = 'none';
-  public selectedDifficulty: string = 'none';
   private apiUrl = 'https://opentdb.com/api_category.php';
 
   constructor(private http: HttpClient, private router: Router) { }
@@ -27,7 +27,7 @@ export class HomeComponent implements OnInit {
   }
 
   fetchData() {
-    this.http.get<any>(this.apiUrl).subscribe((data) => {
+    this.http.get<ITrivia>(this.apiUrl).subscribe((data) => {
       this.categories = data.trivia_categories;
     });
   }
@@ -36,16 +36,15 @@ export class HomeComponent implements OnInit {
     let id  = this.categories.find(category => category.name === this.selectedCategory)?.id;
     this.router.navigate(['quiz'], {queryParams: {
         category: id, categoryName: this.selectedCategory, difficulty: this.selectedDifficulty
-      }});
+      }
+    });
   }
 
   onCategorySelected(value: string) {
     this.selectedCategory = value;
   }
 
-
   onDifficultySelected(value: string) {
     this.selectedDifficulty = value;
   }
-
 }

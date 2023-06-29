@@ -1,7 +1,7 @@
-import {HttpClient} from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {IQuestion} from '../../shared/results.model';
+import { ActivatedRoute, Router } from '@angular/router';
+import { IQuestion, IQuestionData } from '../../shared/questions.model';
 import * as he from 'he';
 
 @Component({
@@ -11,7 +11,7 @@ import * as he from 'he';
 })
 export class QuizComponent implements OnInit {
 
-  public questions: IQuestion[] = [];
+  public questions: IQuestionData[] = [];
   public finalScore: number = 0;
   public difficulty: string = 'all';
   public category: string = 'all';
@@ -34,7 +34,8 @@ export class QuizComponent implements OnInit {
       this.apiUrl = this.apiUrl.concat(`&difficulty=${this.difficulty.toLowerCase()}`);
     }
 
-    this.http.get<any>(this.apiUrl).subscribe((data) => {
+    this.http.get<IQuestion>(this.apiUrl).subscribe((data) => {
+      console.log(data);
       this.questions = data.results;
       this.randomizeAnswers();
     });
@@ -60,7 +61,8 @@ export class QuizComponent implements OnInit {
         finalScore: this.finalScore,
         difficulty: this.difficulty,
         categoryName: this.categoryName
-      }});
+      }
+    });
   }
 
   randomizeAnswers() {
