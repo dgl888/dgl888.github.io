@@ -25,7 +25,7 @@ export class QuizComponent implements OnInit {
     this.fetchData();
   }
 
-  fetchData() {
+  private fetchData(): void {
     if(this.category != 'all') {
       this.apiUrl = this.apiUrl.concat(`&category=${this.category}`);
     }
@@ -35,13 +35,12 @@ export class QuizComponent implements OnInit {
     }
 
     this.http.get<IQuestion>(this.apiUrl).subscribe((data) => {
-      console.log(data);
       this.questions = data.results;
       this.randomizeAnswers();
     });
   }
 
-  private setupUrl() {
+  private setupUrl(): void {
     this.activatedRoute.queryParams.subscribe(data => {
       this.difficulty = data['difficulty'];
       this.category = data['category'];
@@ -49,7 +48,7 @@ export class QuizComponent implements OnInit {
     })
   }
 
-  submit() {
+  public submit(): void {
     this.questions.forEach(question => {
       if(question.correct_answer == question.selectedAnswer) {
         this.finalScore++;
@@ -65,7 +64,7 @@ export class QuizComponent implements OnInit {
     });
   }
 
-  randomizeAnswers() {
+  private randomizeAnswers(): void {
     this.questions.forEach( (question, index) => {
 
       //Decode Answers so that they display symbols correctly
@@ -82,7 +81,7 @@ export class QuizComponent implements OnInit {
     });
   }
 
-  areAllAnswersSelected(): boolean {
+  public areAllAnswersSelected(): boolean {
     return this.questions.every(question => !!question.selectedAnswer);
   }
 }

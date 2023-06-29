@@ -18,7 +18,7 @@ export class HomeComponent implements OnInit {
     'Hard'
   ];
 
-  private apiUrl = 'https://opentdb.com/api_category.php';
+  private apiUrl: string = 'https://opentdb.com/api_category.php';
 
   constructor(private http: HttpClient, private router: Router) { }
 
@@ -26,13 +26,13 @@ export class HomeComponent implements OnInit {
     this.fetchData();
   }
 
-  fetchData() {
+  private fetchData(): void {
     this.http.get<ITrivia>(this.apiUrl).subscribe((data) => {
       this.categories = data.trivia_categories;
     });
   }
 
-  createQuiz() {
+  public createQuiz(): void {
     let id  = this.categories.find(category => category.name === this.selectedCategory)?.id;
     this.router.navigate(['quiz'], {queryParams: {
         category: id, categoryName: this.selectedCategory, difficulty: this.selectedDifficulty
@@ -40,11 +40,11 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  onCategorySelected(value: string) {
+  public onCategorySelected(value: string): void {
     this.selectedCategory = value;
   }
 
-  onDifficultySelected(value: string) {
+  public onDifficultySelected(value: string) {
     this.selectedDifficulty = value;
   }
 }

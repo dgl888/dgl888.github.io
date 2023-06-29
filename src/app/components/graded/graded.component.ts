@@ -26,7 +26,7 @@ export class GradedComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  getQuestionClass(answer: string, selectedAnswer: string | null, correct_answer: string) {
+  public getQuestionClass(answer: string, selectedAnswer: string | null, correct_answer: string): string {
     if(answer == correct_answer) {
       return 'correct'
     } else if(answer == selectedAnswer && answer != correct_answer){
@@ -36,7 +36,7 @@ export class GradedComponent implements OnInit {
     }
   }
 
-  setClass() {
+  public setClass(): string {
     return this.finalScore === 0 || this.finalScore === 1 ? 'fail' : this.finalScore === 2 || this.finalScore === 3 ? 'pass' : 'success';
   }
 }
